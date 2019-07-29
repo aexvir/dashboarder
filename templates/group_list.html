@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Groups{% end %}
+
+{% block body %}
+<div class="ui container">
+    <div class="ui basic segment">
+        <h1 class="ui header">
+            Group list
+            <div class="sub header">
+                Until I add proper search you can use <b>Ctrl+f</b> or <b>⌘+f</b> for finding stuff ;)
+            </div>
+        </h1>
+        {% if groups %}
+            {% for group in sorted(groups, key=lambda g: g.name.lower()) %}
+            <div class="ui segment">
+                <h3 class="ui header">
+                    <a href="/groups/{{ group.id }}">{{ group.name }}</a>
+                    {% if group.description %}
+                    <div class="sub header">
+                        {{ group.description }}
+                    </div>
+                    {% end %}
+                </h3>
+            </div>
+            {% end %}
+        {% else %}
+            <div class="ui basic center aligned segment">
+                <h2 class="ui header">Nothin'</h2>
+            </div>
+        {% end %}
+    </div>
+</div>
+{% end %}

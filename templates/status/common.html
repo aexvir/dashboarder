@@ -1,0 +1,71 @@
+{% extends '../base.html' %}
+
+{% block extrastyle %}
+    <style>
+        .wrapper.grid {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+        }
+        .ui.icon.header.error {font-size: 2.5rem;}
+        .ui.icon.header.error .sub.header {font-size: .75em;}
+        .ui.icon.header.error .icon {font-size: 5em;}
+        .ui.icon.header.error .corner.icon {font-size: 5rem;}
+        .ui.icon.header.error .status {
+            font-size: .65em;
+            font-weight: 700;
+        }
+    </style>
+{% end %}
+
+{% block body %}
+    <div class="ui stackable centered grid wrapper">
+        <div class="ui sixteen wide column">
+            <div class="ui center aligned icon header error">
+                {% block header %}{% end %}
+            </div>
+        </div>
+        <div class="ui ten wide column">
+            <div class="ui basic segment">
+                <h3 class="ui header">{% block description %}{% end %}</h3>
+                <div class="ui raised secondary segment">
+                    <div class="content">
+                        <div class="ui relaxed list">
+                            <div class="item">
+                                <i class="refresh icon"></i>
+                                <div class="content">
+                                    <div class="header">Reload the page</div>
+                                    <div class="description">You can try refreshing the window, maybe this is a temporary issue</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <i class="browser icon"></i>
+                                <div class="content">
+                                    <div class="header">Check the URL</div>
+                                    <div class="description">If you have written the URL by hand, make sure that it is correct</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <i class="mail icon"></i>
+                                <div class="content">
+                                    <div class="header">Contact us on slack</div>
+                                    <div class="description">We sometimes screw things up, ping us on <a href="https://slack.com/messages/plz-platform">#plz-platform</a>, we don't bite</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% end %}
+
+{% block extrascript %}
+    <script>
+        $('.ui.icon.header>.icons').transition('bounce');
+    </script>
+{% end %}

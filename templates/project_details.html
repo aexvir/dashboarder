@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.name }} board list{% end %}
+
+{% block body %}
+<div class="ui container">
+    <div class="ui basic segment">
+        <div class="ui breadcrumb">
+            <a href="/groups" class="section">Groups</a>
+            <i class="right angle icon divider"></i>
+            <a href="/groups/{{ group.id }}" class="section">{{ group.name }}</a>
+            <i class="right angle icon divider"></i>
+            <div class="active section">{{ project.name }}</div>
+        </div>
+        <h1 class="ui header">
+            <a href="/projects/{{ project.id }}">{{ project.name }}</a> board list
+            <div class="sub header">
+                Until I add proper search you can use <b>Ctrl+f</b> or <b>⌘+f</b> for finding stuff ;)
+            </div>
+        </h1>
+        {% if boards %}
+            {% for board in sorted(boards, key=lambda b: b.name.lower()) %}
+            <div class="ui green raised segment">
+                <h3 class="ui header">
+                    <a href="/projects/{{ project.id }}/boards/{{ board.id }}">{{ board.name }}</a>
+                    {% if board.milestone %}
+                    <div class="sub header">
+                        {{ board.milestone['title'] }}
+                    </div>
+                    {% end %}
+                </h3>
+            </div>
+            {% end %}
+        {% else %}
+            <div class="ui basic center aligned segment">
+                <h2 class="ui header">Nothin'</h2>
+            </div>
+        {% end %}
+    </div>
+</div>
+{% end %}

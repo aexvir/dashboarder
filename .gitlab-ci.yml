@@ -1,0 +1,17 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  CRANE_ARGS: --service dashboarder
+
+include:
+  - 'https://ci-files.skypicker.com/templates/build/docker_build.yml'
+  - 'https://ci-files.skypicker.com/templates/deploy/.crane.yml'
+
+deploy-production:
+  extends: .crane
+  environment:
+    name: production
+    url: https://platform-boards.skypicker.com
+  when: manual

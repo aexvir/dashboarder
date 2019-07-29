@@ -1,0 +1,22 @@
+{% extends 'common.html' %}
+
+{% block title %}Forbidden{% end %}
+
+{% block header %}
+    <i class="icons bounce-in">
+        <i class="icon">
+            <img src="/static/img/thinking.svg" style="height: 200px; width: 200px;" alt="Thinking">
+        </i>
+    </i>
+    <br>
+    Oops...
+    <div class="sub header">
+        It seems you are not... allowed
+        <br>
+        <span class="status">Error HTTP 403 - Forbidden</span>
+    </div>
+{% end %}
+
+{% block description %}
+Make sure you are authenticated as explained <a href="https://github.com/aexvir/dashboarder">here</a>, but here you have some options
+{% end %}

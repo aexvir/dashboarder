@@ -1,0 +1,81 @@
+.ui.grid {
+    padding: 1rem;
+    padding-bottom: 0;
+}
+.ui.grid.grid>.column.column {
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: 0;
+}
+.ui.grid.grid>.column.column:first-of-type {
+    padding-left: 1rem;
+}
+.ui.grid.grid>.column.column:last-of-type {
+    padding-right: 1rem;
+}
+.assignees img.circular.image{
+    height: 18px;
+    width: 18px;
+    margin-left: .25rem !important;
+}
+.ui.issue-wrapper.segment {
+    padding: .5rem;
+    height: calc(100vh - 11rem);
+    overflow: hidden;
+}
+.ui.issue-wrapper>.nothing.segment {
+    color: #000;
+}
+.ui.issue-wrapper>.nothing.segment h1,
+.ui.issue-wrapper>.nothing.segment h5 {
+    margin: 0;
+}
+.ui.issue.segment {
+    margin: .5rem 0;
+    padding: .5rem;
+}
+.ui.issue.segment>.description {
+    margin-bottom: -.25rem;
+}
+.ui.issue.segment>.description .label {
+    margin-bottom: .25rem;
+}
+.ui.issue.segment.segment:first-of-type {
+    margin-top: 0;
+}
+.ui.issue.segment.segment:last-of-type {
+    margin-bottom: 0 !important;
+}
+.ui.issue.header {
+    margin-bottom: 0;
+}
+.ui.issue.header+.description:not(:empty) {
+    margin-top: .5rem;
+}
+.ui.statistic.remaining-time>.value {
+    text-transform: lowercase;
+    font-size: 1.25rem !important;
+}
+.ui.statistic.remaining-time>.label {
+    font-size: .825rem !important;
+    opacity: .75;
+}
+.ui.circular.label,
+.ui.circular.labels .label {
+    min-height: 1.5em;
+    padding: .25em .5em .325em .5em !important;
+}
+.ui.one.column.grid.footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    margin: 0;
+    padding: 0;
+    height: 6.5rem;
+}
+.ui.one.column.grid.footer .progress {
+    margin-bottom: 0;
+}

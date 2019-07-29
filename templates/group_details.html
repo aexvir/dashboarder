@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ group.name }} Projects{% end %}
+
+{% block body %}
+<div class="ui container">
+    <div class="ui basic segment">
+        <div class="ui breadcrumb">
+            <a href="/groups" class="section">Groups</a>
+            <i class="right angle icon divider"></i>
+            <div class="active section">{{ group.name }}</div>
+        </div>
+        <h1 class="ui header">
+            <a href="/groups/{{ group.id }}">{{ group.name }}</a> boards
+            <div class="sub header">
+                Until I add proper search you can use <b>Ctrl+f</b> or <b>⌘+f</b> for finding stuff ;)
+            </div>
+        </h1>
+        {% if boards %}
+            {% for board in sorted(boards, key=lambda b: b.name.lower()) %}
+            <div class="ui green raised segment">
+                <h3 class="ui header">
+                    <a href="/groups/{{ group.id }}/boards/{{ board.id }}">{{ board.name }}</a>
+                    {% if board.milestone %}
+                    <div class="sub header">
+                        {{ board.milestone['title'] }}
+                    </div>
+                    {% end %}
+                </h3>
+            </div>
+            {% end %}
+        {% else %}
+            <div class="ui basic center aligned segment">
+                <h2 class="ui header">Nothin'</h2>
+            </div>
+        {% end %}
+        <h1 class="ui header">
+            <a href="/groups/{{ group.id }}">{{ group.name }}</a> project list
+            <div class="sub header">
+                Until I add proper search you can use <b>Ctrl+f</b> or <b>⌘+f</b> for finding stuff ;)
+            </div>
+        </h1>
+        {% if projects %}
+            {% for project in sorted(projects, key=lambda p: p.name.lower()) %}
+            <div class="ui secondary segment">
+                <h3 class="ui header">
+                    <a href="/projects/{{ project.id }}">{{ project.name }}</a>
+                    {% if project.description %}
+                    <div class="sub header">
+                        {{ project.description }}
+                    </div>
+                    {% end %}
+                </h3>
+            </div>
+            {% end %}
+        {% else %}
+            <div class="ui basic center aligned segment">
+                <h2 class="ui header">Nothin'</h2>
+            </div>
+        {% end %}
+    </div>
+</div>
+{% end %}

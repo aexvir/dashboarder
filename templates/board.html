@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ group.full_name }} {% if milestone %}| {{ milestone['title'] }}{% end %}{% end %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="/static/css/board.css">
+    <style>
+        {% for colortuple in board.colors %}
+        .ui.inverted.{{ colortuple[0] }}.segment {
+            background-color: {{ colortuple[1] }} !important;
+        }
+        .ui.{{ colortuple[0] }}.segment:not(.inverted) {
+            border-top: 2px solid {{ colortuple[1] }} !important;
+        }
+        {% end %}
+    </style>
+{% end %}
+
+{% block body %}
+    <div class="ui equal width main grid" style="min-height: calc(100vh - 7.5rem);">
+        {% for label, column in board.columns.items() %}
+        <div class="column" style="order: {{ column.position }};">
+            <div class="ui raised segments">
+                <div class="ui {{ column.classname }} inverted segment">
+                    <div class="ui middle aligned list">
+                        <div class="item">
+                            <div class="right floated">
+                                <h4>{{ len(column.issues) }}</h4>
+                            </div>
+                            <div class="content">
+                                <h4>{{ column.title }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui secondary segment issue-wrapper">
+                    {% if not column.issues %}
+                    <div class="ui basic center aligned segment nothing">
+                        <h5>
+                            Nothing
+                        </h5>
+                        <h1>
+                            😅
+                        </h1>
+                    </div>
+                    {% end %}
+                    {% for issue in sorted(column.issues, key=lambda issue: issue.created_at) %}
+                    <div class="ui {{ column.classname }} issue segment">
+                        <h5 class="ui issue header">
+                            <div class="assignees">
+                                {% for assignee in issue.assignees %}
+                                <img class="ui right floated circular image" src="{{ assignee['avatar_url'] }}">
+                                {% end %}
+                            </div>
+                            {{ issue.title }}
+                            <div class="sub header">
+                                {{ projects[issue.project_id].name }}#{{ issue.iid }}
+                            </div>
+                        </h5>
+                        {% if issue.labels %}
+                        <!-- Can't paint labels yet -->
+                        <!-- https://gitlab.com/gitlab-org/gitlab-ce/issues/24156 -->
+                        <div class="description">
+                        {% for label in issue.labels %}
+                            {% if label != column.title %}
+                            {% set style = label_provider.get_style(label) %}
+                            <div class="ui circular label" style="background: {{ style['background'] }}; color: {{ style['text'] }}">
+                                {{ label }}
+                            </div>
+                            {% end %}
+                        {% end %}
+                        </div>
+                        {% end %}
+                    </div>
+                    {% end %}
+                </div>
+            </div>
+        </div>
+        {% end %}
+    </div>
+    <div class="ui one column grid footer">
+        <div class="column">
+            <div class="ui green active small progress" data-total="{{ total }}" data-value="{{ len(board.columns['closed'].issues) }}">
+                <div class="bar"></div>
+            </div>
+            <div class="ui {% if milestone and milestone.get('due_date') %}three{% else %}two{% end %} column grid">
+                <div class="column">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            {% for member in sorted(group.members.list(), key=lambda k: k.name ) %}
+                            <div class="swiper-slide">
+                                <img src="{{ member.avatar_url }}" alt="" class="ui mini circular image">
+                            </div>
+                            {% end %}
+                        </div>
+                    </div>
+                </div>
+                <div class="{% if milestone and milestone.get('due_date') %}center{% else %}right{% end %} aligned column">
+                    <h3 class="ui header" {% if not milestone %}style="margin-top: .25rem;"{% end %}>
+                        {% if milestone %}
+                        {{ milestone['title'] }}
+                        <div class="sub header">
+                            <a href="/groups/{{ group.id }}">{{ group.full_name }}</a>
+                        </div>
+                        {% else %}
+                        <a href="/groups/{{ group.id }}">{{ group.full_name }}</a>
+                        {% end %}
+                    </h3>
+                </div>
+                {% if milestone and milestone.get('due_date') %}
+                <div class="right aligned column">
+                    <div class="ui remaining-time statistic">
+                        <div class="value"></div>
+                        <div class="label">
+                            Remaining
+                        </div>
+                    </div>
+                </div>
+                {% end %}
+            </div>
+        </div>
+    </div>
+{% end %}
+
+{% block extrascript %}
+<script>
+    {% if milestone and milestone.get('due_date') %}
+    const due = moment("{{ milestone.get('due_date') }}");
+    setInterval(function () {
+        const now = moment();
+        const remaining = moment.duration(due - Math.min(due, now));
+        $('.remaining-time>.value').html(
+            remaining.days() + 'd:' + remaining.hours() + 'h:' + remaining.minutes() + 'm:' + remaining.seconds() + 's'
+        );
+        $('.remaining-time').toggleClass(function () {
+            if(remaining.days() == 1)
+                return 'yellow';
+            else if(remaining.days() == 0)
+                return 'red';
+            else return 'grey';
+        }, true);
+    }, 1000);
+    {% end %}
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 10,
+        spacebetween: 15,
+        autoplay: {
+            delay: 10 * 1000,
+            disableOnInteraction: false,
+        },
+        observer: true,
+        breakpoints: {
+            1400: {
+                slidesPerView: 8,
+                spacebetween: 15,
+            },
+            1024: {
+                slidesPerView: 6,
+                spacebetween: 15,
+            },
+            796: {
+                slidesPerView: 4,
+                spacebetween: 15,
+            },
+            564: {
+                slidesPerView: 2,
+                spacebetween: 15,
+            },
+        }
+    });
+</script>
+{% end %}

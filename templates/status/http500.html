@@ -1,0 +1,22 @@
+{% extends 'common.html' %}
+
+{% block title %}Error{% end %}
+
+{% block header %}
+    <i class="icons bounce-in">
+        <i class="icon">
+            <img src="/static/img/embarrassed.svg" style="height: 200px; width: 200px;" alt="Embarrassed">
+        </i>
+    </i>
+    <br>
+    Oops...
+    <div class="sub header">
+        Something seems... broken
+        <br>
+        <span class="status">Error HTTP 500 - Internal Server Error</span>
+    </div>
+{% end %}
+
+{% block description %}
+We logged this issue somewhere, but here you have some options
+{% end %}

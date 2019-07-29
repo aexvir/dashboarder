@@ -1,0 +1,22 @@
+{% extends 'common.html' %}
+
+{% block title %}Not found{% end %}
+
+{% block header %}
+    <i class="icons bounce-in">
+        <i class="icon">
+            <img src="/static/img/sad.svg" style="height: 200px; width: 200px;" alt="Sad">
+        </i>
+    </i>
+    <br>
+    Oops...
+    <div class="sub header">
+        We couldn't find that... thing
+        <br>
+        <span class="status">Error HTTP 404 - Not Found</span>
+    </div>
+{% end %}
+
+{% block description %}
+The resource is not availbale or it does not exist, but here you have some options
+{% end %}
