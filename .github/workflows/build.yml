@@ -1,0 +1,15 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-stable
+    steps:
+    - uses: actions/checkout@master
+    - uses: docker://docker:stable
+    - name: Docker image
+      run: |
+        docker build .
+        --build-arg package_version=git-$GITHUB_SHA
+        --label build-date=`date -Iseconds`
